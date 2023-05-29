@@ -4,5 +4,5 @@ Route.group(() => {
  Route.resource('user', 'UsersController').apiOnly()
 })
   .prefix("api/v1/")
-  .namespace("App/Controllers/Http/UsersController")
+  .namespace("App/Controllers/Http/Users")
   .middleware('auth')

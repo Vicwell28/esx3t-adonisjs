@@ -7,7 +7,7 @@ Route.group(() => {
 
   Route.post("forgot-password", "AuthController.forgotPassword");
 
-  Route.post("logout", "AuthController.logout").middleware('auth')
+  Route.post("logout", "AuthController.logout").middleware("auth");
 })
   .prefix("api/v1/auth")
-  .namespace("App/Controllers/Http/AuthController");
+  .namespace("App/Controllers/Http/Auth");
