@@ -1,28 +1,23 @@
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
-// export default class SalesDetailsController {}
-
-
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import View from "App/Models/Views/View";
-import ViewCreateValidator from "App/Validators/Views/View/ViewCreateValidator";
-import ViewUpdateValidator from "App/Validators/Views/View/ViewUpdateValidator";
+import SalesDetail from "App/Models/Sales/SalesDetail";
+import SalesDetailCreateValidator from "App/Validators/Sales/SalesDetail/SalesDetailCreateValidator";
+import SalesDetailUpdateValidator from "App/Validators/Sales/SalesDetail/SalesDetailUpdateValidator";
 
 const RETURN_DATA_OK = "Return data ok";
-export default class ViewsController {
+export default class SalesDetailsController {
   public async index({ response, request }: HttpContextContract) {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let view = await View.all();
+      let salesDetail = await SalesDetail.all();
 
       if (orderBy === "des") {
-        view = view.reverse();
+        salesDetail = salesDetail.reverse();
       }
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: view,
+        data: salesDetail,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -31,13 +26,13 @@ export default class ViewsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const payload = await request.validate(ViewCreateValidator);
+      const payload = await request.validate(SalesDetailCreateValidator);
 
-      const status = await View.create(payload);
+      // const status = await SalesDetail.create(payload);
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: status,
+        // data: status,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -47,15 +42,15 @@ export default class ViewsController {
   public async show({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
-      const view = await View.findBy("id", id);
+      const salesDetail = await SalesDetail.findBy("id", id);
 
-      if (!view) {
-        return response.notFound({ error: "view not found" });
+      if (!salesDetail) {
+        return response.notFound({ error: "salesDetail not found" });
       }
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: view,
+        data: salesDetail,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -64,20 +59,20 @@ export default class ViewsController {
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      const payload = await request.validate(ViewUpdateValidator);
+      const payload = await request.validate(SalesDetailUpdateValidator);
       const id = request.param("id");
 
-      const view = await View.findBy("id", id);
+      const salesDetail = await SalesDetail.findBy("id", id);
 
-      if (!view) {
-        return response.notFound({ error: "view not found" });
+      if (!salesDetail) {
+        return response.notFound({ error: "salesDetail not found" });
       }
 
-      const status = await view!.merge(payload).save();
+      // const status = await salesDetail!.merge(payload).save();
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: status,
+        // data: status,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -87,13 +82,15 @@ export default class ViewsController {
   public async destroy({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
-      const view = await View.findBy("id", id);
+      const salesDetail = await SalesDetail.findBy("id", id);
 
-      if (!view) {
-        return response.notFound({ error: "view not found" });
+      if (!salesDetail) {
+        return response.notFound({ error: "salesDetail not found" });
       }
 
-      let userDeleted = await view.merge({ status: !view.status }).save();
+      let userDeleted = await salesDetail
+        .merge({ status: !salesDetail.status })
+        .save();
 
       return response.ok({
         message: RETURN_DATA_OK,
