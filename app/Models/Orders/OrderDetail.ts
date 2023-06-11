@@ -11,6 +11,8 @@ export default class OrderDetail extends BaseModel {
   @column()
   public order_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public product_branche_id: number;
 

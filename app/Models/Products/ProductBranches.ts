@@ -11,8 +11,12 @@ export default class ProductBranches extends BaseModel {
   @column()
   public product_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public branche_id: number;
+
+  //TODO: AGREGAR RELACION
 
   @column()
   public status: boolean;

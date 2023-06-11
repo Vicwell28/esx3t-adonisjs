@@ -8,8 +8,12 @@ export default class SalesDetail extends BaseModel {
   @column()
   public sale_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public product_branche_id: number;
+
+  //TODO: AGREGAR RELACION
 
   @column()
   public quantity: number;

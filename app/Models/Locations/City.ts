@@ -11,10 +11,10 @@ export default class City extends BaseModel {
   @column()
   public state_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public status: boolean;
-
-  //TODO: AGREGAR LA RELACION CON STATE
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

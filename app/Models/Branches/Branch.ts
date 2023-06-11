@@ -17,6 +17,8 @@ export default class Branch extends BaseModel {
   @column()
   public citie_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public status: boolean;
 

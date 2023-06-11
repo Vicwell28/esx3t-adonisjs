@@ -14,6 +14,8 @@ export default class Product extends BaseModel {
   @column()
   public product_category_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public price: number;
 

@@ -11,8 +11,12 @@ export default class Sale extends BaseModel {
   @column()
   public client_id: number;
 
+  //TODO: AGREGAR RELACION
+
   @column()
   public employee_id: number;
+
+  //TODO: AGREGAR RELACION
 
   @column()
   public status: boolean;

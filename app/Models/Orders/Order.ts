@@ -11,6 +11,8 @@ export default class Order extends BaseModel {
   @column()
   public client_id: number;
 
+  //TODO: AGREGAR RELACION
+  
   @column()
   public employee_id: number;
 
