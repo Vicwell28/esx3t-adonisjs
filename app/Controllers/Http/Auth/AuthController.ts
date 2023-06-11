@@ -1,14 +1,13 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import User from "App/Models/Users/User";
-import ForgotPasswordValidator from "App/Validators/auth/ForgotPasswordValidator";
-import SignInValidator from "App/Validators/auth/SignInValidator";
-import SignUpValidator from "App/Validators/auth/SignUpValidator";
+import ForgotPasswordValidator from "App/Validators/Auth/ForgotPasswordValidator";
+import SignInValidator from "App/Validators/Auth/SignInValidator";
+import SignUpValidator from "App/Validators/Auth/SignUpValidator";
 import Mail from "@ioc:Adonis/Addons/Mail";
 
 export default class AuthController {
-
   //ESTA ES LA FUNCION SHUFFLE
-  
+
   private shuffleArray<T>(array: T[]): T[] {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {

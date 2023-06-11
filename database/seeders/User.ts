@@ -9,7 +9,7 @@ export default class extends BaseSeeder {
         email: "admin@gmail.com",
         password: "admin",
         role_id: 1,
-      }
+      },
     ]);
   }
 }

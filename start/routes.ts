@@ -18,8 +18,11 @@
 |
 */
 
-import "./auth/auth.routes";
-import "./user/user.routes";
+import "./Auth/auth.routes";
+import "./User/user.routes";
+import "./View/ViewCategory.routes"
+import "./View/View.routes"
+import "./View/RoleView.routes"
 
 import Route from "@ioc:Adonis/Core/Route";
 

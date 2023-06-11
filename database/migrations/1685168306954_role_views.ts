@@ -20,6 +20,8 @@ export default class extends BaseSchema {
         .inTable("roles")
         .onDelete("CASCADE")
         .nullable();
+      table.unique(["view_id", "role_id"]);
+
       table.boolean("status").defaultTo(true);
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
