@@ -1,15 +1,18 @@
 import { DateTime } from "luxon";
 import { BaseModel, column } from "@ioc:Adonis/Lucid/Orm";
 
-export default class ProductCategory extends BaseModel {
+export default class ProductBranches extends BaseModel {
   @column({ isPrimary: true })
   public id: number;
 
   @column()
-  public name: string;
+  public stock: string;
 
   @column()
-  public description: string;
+  public product_id: number;
+
+  @column()
+  public branche_id: number;
 
   @column()
   public status: boolean;

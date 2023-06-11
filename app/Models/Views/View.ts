@@ -44,11 +44,9 @@ export default class View extends BaseModel {
     pivotForeignKey: "view_id",
     relatedKey: "id",
     pivotRelatedForeignKey: "role_id",
-    pivotTable: 'role_views'
+    pivotTable: "role_views",
   })
   public views: ManyToMany<typeof Role>;
-
-
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

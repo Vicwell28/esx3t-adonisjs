@@ -1,9 +1,24 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { DateTime } from "luxon";
+import { BaseModel, column } from "@ioc:Adonis/Lucid/Orm";
 
 export default class OrderDetail extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: number;
+
+  @column()
+  public name: string;
+
+  @column()
+  public order_id: number;
+
+  @column()
+  public product_branche_id: number;
+
+  @column()
+  public quantity: number;
+
+  @column()
+  public status: boolean;
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

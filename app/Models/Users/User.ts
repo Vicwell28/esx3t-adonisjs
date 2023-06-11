@@ -30,7 +30,7 @@ export default class User extends BaseModel {
 
   @column()
   public rememberMeToken: string | null;
-  
+
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;
 
@@ -47,5 +47,4 @@ export default class User extends BaseModel {
     foreignKey: "role_id",
   })
   public role: BelongsTo<typeof Role>;
-
 }
