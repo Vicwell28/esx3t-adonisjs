@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id");
       table.string("name", 50).nullable();
-      table.string("description", 250).nullable();
+      table.string("description", 250).nullable().defaultTo("");
       table.boolean("status").defaultTo(true);
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

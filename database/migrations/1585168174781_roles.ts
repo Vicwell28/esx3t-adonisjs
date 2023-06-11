@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id");
       table.string("name", 50).nullable();
-      table.string("description", 500).nullable();
+      table.string("description", 500).nullable().defaultTo("");
       table.boolean("status").defaultTo(true);
 
       /**
