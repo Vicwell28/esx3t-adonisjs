@@ -19,10 +19,26 @@
 */
 
 import "./Auth/auth.routes";
+
 import "./User/user.routes";
-import "./View/ViewCategory.routes"
-import "./View/View.routes"
-import "./View/RoleView.routes"
+
+import "./View/ViewCategory.routes";
+import "./View/View.routes";
+import "./View/RoleView.routes";
+
+import "./Branche/branch.routes";
+
+import "./Locations/city.routes";
+import "./Locations/state.routes";
+
+import "./Order/order.routes";
+import "./Order/orderDetail.routes";
+
+import "./Product/product.routes";
+import "./Product/productCategorie.routes";
+
+import "./Sale/sale.routes";
+import "./Sale/salesDetail.routes";
 
 import Route from "@ioc:Adonis/Core/Route";
 
