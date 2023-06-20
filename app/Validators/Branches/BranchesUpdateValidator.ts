@@ -4,15 +4,15 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 export default class BranchesUpdateValidator {
   constructor(protected ctx: HttpContextContract) {}
   public schema = schema.create({
-    name: schema.string.optional({ trim: true }, [
+    name: schema.string.optional({ trim: true }, [rules.minLength(4)]),
+    postal_code: schema.string.optional({ trim: true }, [rules.minLength(4)]),
+    address: schema.string.optional({ trim: true }, [
       rules.minLength(4),
-      rules.unique({ table: "view", column: "name" }),
     ]),
-    description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
-    view_category_id: schema.number.optional(),
+    citie_id: schema.number.optional(),
   });
 
   public messages: CustomMessages = {
-    required: "The {{ field }} is required to create a new view category",
+    required: "The {{ field }} is required to create a new branches",
   };
 }

@@ -7,7 +7,19 @@ const RETURN_DATA_OK = "Return data ok";
 export default class OrderDetailsController {
   public async index({ response, request }: HttpContextContract) {
     try {
-      const { orderBy } = request.all() as { orderBy?: string };
+      const { orderBy, order } = request.all() as {
+        orderBy?: string;
+        order?: string;
+      };
+
+      if (order) {
+        let orderDetail = await OrderDetail.query().where("order_id", order).where("status", true)
+
+        return response.ok({
+          message: RETURN_DATA_OK,
+          data: orderDetail,
+        });
+      }
 
       let orderDetail = await OrderDetail.all();
 
@@ -28,7 +40,13 @@ export default class OrderDetailsController {
     try {
       const payload = await request.validate(OrderDetailCreateValidator);
 
-      const status = await OrderDetail.create(payload);
+      const orderItems = payload.products.map((product) => ({
+        order_id: payload.order_id,
+        product_branche_id: product.product_branche_id,
+        quantity: product.quantity,
+      }));
+
+      const status = await OrderDetail.createMany(orderItems);
 
       return response.ok({
         message: RETURN_DATA_OK,
@@ -60,15 +78,22 @@ export default class OrderDetailsController {
   public async update({ request, response }: HttpContextContract) {
     try {
       const payload = await request.validate(OrderDetailUpdateValidator);
+
       const id = request.param("id");
 
-      const orderDetail = await OrderDetail.findBy("id", id);
+      (await OrderDetail.query().where("order_id", id)).forEach(
+        async (product) => {
+          await product.merge({ status: false }).save();
+        }
+      );
 
-      if (!orderDetail) {
-        return response.notFound({ error: "orderDetail not found" });
-      }
+      const orderItems = payload.products.map((product) => ({
+        order_id: payload.order_id,
+        product_branche_id: product.product_branche_id,
+        quantity: product.quantity,
+      }));
 
-      const status = await orderDetail!.merge(payload).save();
+      const status = await OrderDetail.createMany(orderItems);
 
       return response.ok({
         message: RETURN_DATA_OK,

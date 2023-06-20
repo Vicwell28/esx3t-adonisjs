@@ -7,7 +7,20 @@ const RETURN_DATA_OK = "Return data ok";
 export default class SalesDetailsController {
   public async index({ response, request }: HttpContextContract) {
     try {
-      const { orderBy } = request.all() as { orderBy?: string };
+
+      const { orderBy, sale_id } = request.all() as {
+        orderBy?: string;
+        sale_id?: string;
+      };
+
+      if (sale_id) {
+        let orderDetail = await SalesDetail.query().where("sale_id", sale_id).where("status", true)
+
+        return response.ok({
+          message: RETURN_DATA_OK,
+          data: orderDetail,
+        });
+      }
 
       let salesDetail = await SalesDetail.all();
 
@@ -26,13 +39,20 @@ export default class SalesDetailsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
+
       const payload = await request.validate(SalesDetailCreateValidator);
 
-      // const status = await SalesDetail.create(payload);
+      const orderItems = payload.products.map((product) => ({
+        sale_id: payload.sale_id,
+        product_branche_id: product.product_branche_id,
+        quantity: product.quantity,
+      }));
+
+      const status = await SalesDetail.createMany(orderItems);
 
       return response.ok({
         message: RETURN_DATA_OK,
-        // data: status,
+        data: status,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -59,21 +79,30 @@ export default class SalesDetailsController {
 
   public async update({ request, response }: HttpContextContract) {
     try {
+
       const payload = await request.validate(SalesDetailUpdateValidator);
+
       const id = request.param("id");
 
-      const salesDetail = await SalesDetail.findBy("id", id);
+      (await SalesDetail.query().where("sale_id", id)).forEach(
+        async (product) => {
+          await product.merge({ status: false }).save();
+        }
+      );
 
-      if (!salesDetail) {
-        return response.notFound({ error: "salesDetail not found" });
-      }
+      const orderItems = payload.products.map((product) => ({
+        sale_id: payload.sale_id,
+        product_branche_id: product.product_branche_id,
+        quantity: product.quantity,
+      }));
 
-      // const status = await salesDetail!.merge(payload).save();
+      const status = await SalesDetail.createMany(orderItems);
 
       return response.ok({
         message: RETURN_DATA_OK,
-        // data: status,
+        data: status,
       });
+
     } catch (e) {
       return response.badRequest({ error: { message: e } });
     }

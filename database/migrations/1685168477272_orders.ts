@@ -1,4 +1,5 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
+import { DateTime } from "luxon";
 
 export default class extends BaseSchema {
   protected tableName = "orders";
@@ -6,7 +7,7 @@ export default class extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id");
-      table.date("date_order");
+      table.date("date_order").defaultTo(DateTime.now());
       table
         .integer("client_id")
         .unsigned()

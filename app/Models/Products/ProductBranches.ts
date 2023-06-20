@@ -6,7 +6,7 @@ export default class ProductBranches extends BaseModel {
   public id: number;
 
   @column()
-  public stock: string;
+  public stock: number;
 
   @column()
   public product_id: number;

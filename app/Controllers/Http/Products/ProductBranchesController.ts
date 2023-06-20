@@ -1,23 +1,24 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Order from "App/Models/Orders/Order";
-import OrderCreateValidator from "App/Validators/Orders/Order/OrderCreateValidator";
-import OrderUpdateValidator from "App/Validators/Orders/Order/OrderUpdateValidator";
+import ProductBranches from "App/Models/Products/ProductBranches";
+import ProductBranchesCreateValidator from "App/Validators/Products/ProductBranches/ProductBranchesCreateValidator";
+import ProductBranchesUpdateValidator from "App/Validators/Products/ProductBranches/ProductBranchesUpdateValidator";
+
 
 const RETURN_DATA_OK = "Return data ok";
-export default class OrdersController {
+export default class ProductCategoriesController {
   public async index({ response, request }: HttpContextContract) {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let order = await Order.all();
+      let productBranches = await ProductBranches.all();
 
       if (orderBy === "des") {
-        order = order.reverse();
+        productBranches = productBranches.reverse();
       }
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: order,
+        data: productBranches,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -26,9 +27,9 @@ export default class OrdersController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const payload = await request.validate(OrderCreateValidator);
+      const payload = await request.validate(ProductBranchesCreateValidator);
 
-      const status = await Order.create(payload);
+      const status = await ProductBranches.create(payload);
 
       return response.ok({
         message: RETURN_DATA_OK,
@@ -42,15 +43,15 @@ export default class OrdersController {
   public async show({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
-      const order = await Order.findBy("id", id);
+      const productBranches = await ProductBranches.findBy("id", id);
 
-      if (!order) {
-        return response.notFound({ error: "order not found" });
+      if (!productBranches) {
+        return response.notFound({ error: "productBranches not found" });
       }
 
       return response.ok({
         message: RETURN_DATA_OK,
-        data: order,
+        data: productBranches,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -59,16 +60,16 @@ export default class OrdersController {
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      const payload = await request.validate(OrderUpdateValidator);
+      const payload = await request.validate(ProductBranchesUpdateValidator);
       const id = request.param("id");
 
-      const order = await Order.findBy("id", id);
+      const productBranches = await ProductBranches.findBy("id", id);
 
-      if (!order) {
-        return response.notFound({ error: "order not found" });
+      if (!productBranches) {
+        return response.notFound({ error: "productBranches not found" });
       }
 
-      const status = await order!.merge(payload).save();
+      const status = await productBranches!.merge(payload).save();
 
       return response.ok({
         message: RETURN_DATA_OK,
@@ -82,13 +83,15 @@ export default class OrdersController {
   public async destroy({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
-      const order = await Order.findBy("id", id);
+      const productBranches = await ProductBranches.findBy("id", id);
 
-      if (!order) {
-        return response.notFound({ error: "order not found" });
+      if (!productBranches) {
+        return response.notFound({ error: "productBranches not found" });
       }
 
-      let userDeleted = await order.merge({ status: !order.status }).save();
+      let userDeleted = await productBranches
+        .merge({ status: !productBranches.status })
+        .save();
 
       return response.ok({
         message: RETURN_DATA_OK,

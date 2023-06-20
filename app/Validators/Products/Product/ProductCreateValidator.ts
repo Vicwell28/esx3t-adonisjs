@@ -6,10 +6,11 @@ export default class ProductCreateValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }, [
       rules.minLength(4),
-      rules.unique({ table: "view", column: "name" }),
+      rules.unique({ table: "products", column: "name" }),
     ]),
     description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
-    view_category_id: schema.number(),
+    product_category_id: schema.number(),
+    price: schema.number()
   });
 
   public messages: CustomMessages = {

@@ -4,12 +4,13 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 export default class SalesDetailUpdateValidator {
   constructor(protected ctx: HttpContextContract) {}
   public schema = schema.create({
-    name: schema.string.optional({ trim: true }, [
-      rules.minLength(4),
-      rules.unique({ table: "view", column: "name" }),
-    ]),
-    description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
-    view_category_id: schema.number.optional(),
+    sale_id: schema.number(),
+    products: schema.array().members(
+      schema.object().members({
+        product_branche_id: schema.number(),
+        quantity: schema.number([rules.range(1, 100)]),
+      })
+    ),
   });
 
   public messages: CustomMessages = {

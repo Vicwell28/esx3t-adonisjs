@@ -2,6 +2,9 @@ import { DateTime } from "luxon";
 import { BaseModel, column } from "@ioc:Adonis/Lucid/Orm";
 
 export default class ProductCategory extends BaseModel {
+
+  public static table = 'product_categories'
+
   @column({ isPrimary: true })
   public id: number;
 
@@ -9,14 +12,14 @@ export default class ProductCategory extends BaseModel {
   public name: string;
 
   @column()
-  public description: string;
+  public description: string | null;
 
   @column()
   public status: boolean;
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
-  public createdAt: DateTime;
+  public created_at: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
-  public updatedAt: DateTime;
+  public updated_at: DateTime;
 }
