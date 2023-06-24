@@ -1,5 +1,7 @@
 import { DateTime } from "luxon";
-import { BaseModel, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import Order from "./Order";
+import ProductBranches from "../Products/ProductBranches";
 
 export default class OrderDetail extends BaseModel {
   @column({ isPrimary: true })
@@ -10,8 +12,6 @@ export default class OrderDetail extends BaseModel {
 
   @column()
   public order_id: number;
-
-  //TODO: AGREGAR RELACION
 
   @column()
   public product_branche_id: number;
@@ -27,4 +27,14 @@ export default class OrderDetail extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime;
+
+  @belongsTo(() => Order, {
+    foreignKey: "order_id"
+  })
+  public order: BelongsTo<typeof Order>;
+
+  @belongsTo(() => ProductBranches, {
+    foreignKey: "product_branche_id",
+  })
+  public productBranch: BelongsTo<typeof ProductBranches>;
 }

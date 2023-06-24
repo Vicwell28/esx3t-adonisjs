@@ -8,6 +8,8 @@ import {
   BelongsTo,
 } from "@ioc:Adonis/Lucid/Orm";
 import Role from "./Role";
+import City from "../Locations/City";
+import Branch from "../Branches/Branch";
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -43,8 +45,19 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password);
     }
   }
+  
   @belongsTo(() => Role, {
     foreignKey: "role_id",
   })
   public role: BelongsTo<typeof Role>;
+
+  @belongsTo(() => City, {
+    foreignKey: "city_id",
+  })
+  public city: BelongsTo<typeof City>;
+
+  @belongsTo(() => Branch, {
+    foreignKey: "branche_id",
+  })
+  public branch: BelongsTo<typeof Branch>;
 }

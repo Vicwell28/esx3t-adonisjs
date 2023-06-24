@@ -4,7 +4,6 @@ import {
   column,
   belongsTo,
   BelongsTo,
-  beforeSave,
   manyToMany,
   ManyToMany,
 } from "@ioc:Adonis/Lucid/Orm";
@@ -31,13 +30,6 @@ export default class View extends BaseModel {
     foreignKey: "view_category_id",
   })
   public viewCategory: BelongsTo<typeof ViewCategory>;
-
-  @beforeSave()
-  public static async handleNullStringFields(view: View) {
-    if (view.description === null || view.description === undefined) {
-      view.description = "";
-    }
-  }
 
   @manyToMany(() => Role, {
     localKey: "id",

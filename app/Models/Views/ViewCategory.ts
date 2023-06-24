@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 import {
   BaseModel,
   HasMany,
-  beforeSave,
   column,
   hasMany,
 } from "@ioc:Adonis/Lucid/Orm";
@@ -25,13 +24,6 @@ export default class ViewCategory extends BaseModel {
     foreignKey: "view_category_id",
   })
   public view: HasMany<typeof View>;
-
-  @beforeSave()
-  public static async handleNullStringFields(vc: ViewCategory) {
-    if (vc.description === null || vc.description === undefined) {
-      vc.description = "";
-    }
-  }
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime;

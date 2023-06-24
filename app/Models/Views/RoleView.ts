@@ -22,9 +22,13 @@ export default class RoleView extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
-  @belongsTo(() => View)
+  @belongsTo(() => View,{
+    foreignKey: "view_id"
+  })
   public view: BelongsTo<typeof View>;
 
-  @belongsTo(() => Role)
+  @belongsTo(() => Role, {
+    foreignKey: "role_id"
+  })
   public role: BelongsTo<typeof Role>;
 }
