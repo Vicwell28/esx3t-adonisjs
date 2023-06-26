@@ -9,7 +9,9 @@ export default class StatesController {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let state = await State.all();
+      let state = await State
+      .query()
+      .preload("city")
 
       if (orderBy === "des") {
         state = state.reverse();

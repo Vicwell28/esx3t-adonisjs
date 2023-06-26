@@ -22,6 +22,24 @@ export default class User extends BaseModel {
   public username: string;
 
   @column()
+  public fname: string;
+
+  @column()
+  public lname: string;
+
+  @column()
+  public date_birth: DateTime;
+
+  @column()
+  public rfc: string;
+
+  @column()
+  public address: string;
+
+  @column()
+  public postal_code: string;
+
+  @column()
   public status: boolean;
 
   @column({ serializeAs: null })
@@ -29,6 +47,12 @@ export default class User extends BaseModel {
 
   @column()
   public role_id: number;
+
+  @column()
+  public city_id: number;
+
+  @column()
+  public branche_id: number;
 
   @column()
   public rememberMeToken: string | null;
@@ -45,7 +69,7 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password);
     }
   }
-  
+
   @belongsTo(() => Role, {
     foreignKey: "role_id",
   })

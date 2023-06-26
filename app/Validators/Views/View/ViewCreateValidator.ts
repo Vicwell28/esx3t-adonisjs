@@ -6,7 +6,7 @@ export default class ViewCreateValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }, [
       rules.minLength(4),
-      rules.unique({ table: "view", column: "name" }),
+      rules.unique({ table: "views", column: "name" }),
     ]),
     description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
     view_category_id: schema.number(),

@@ -55,6 +55,7 @@ export default class AuthController {
     try {
       const preload = await request.validate(SignUpValidator);
       const { username, email, password } = preload;
+      
       const data = {
         role_id: 3,
         username,

@@ -3,14 +3,21 @@ import ProductBranches from "App/Models/Products/ProductBranches";
 import ProductBranchesCreateValidator from "App/Validators/Products/ProductBranches/ProductBranchesCreateValidator";
 import ProductBranchesUpdateValidator from "App/Validators/Products/ProductBranches/ProductBranchesUpdateValidator";
 
-
 const RETURN_DATA_OK = "Return data ok";
 export default class ProductCategoriesController {
   public async index({ response, request }: HttpContextContract) {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let productBranches = await ProductBranches.all();
+      let productBranches = await ProductBranches.query()
+        .preload("branch", (query) => {
+          query.preload("city", (query) => {
+            query.preload("state");
+          });
+        })
+        .preload("product", (query) => {
+          query.preload("productCategory");
+        });
 
       if (orderBy === "des") {
         productBranches = productBranches.reverse();
@@ -49,6 +56,16 @@ export default class ProductCategoriesController {
         return response.notFound({ error: "productBranches not found" });
       }
 
+      await productBranches.load("branch", (query) => {
+        query.preload("city", (query) => {
+          query.preload("state");
+        });
+      });
+
+      await productBranches.load("product", (query) => {
+        query.preload("productCategory");
+      });
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: productBranches,
@@ -71,6 +88,16 @@ export default class ProductCategoriesController {
 
       const status = await productBranches!.merge(payload).save();
 
+      await status.load("branch", (query) => {
+        query.preload("city", (query) => {
+          query.preload("state");
+        });
+      });
+
+      await status.load("product", (query) => {
+        query.preload("productCategory");
+      });
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: status,
@@ -92,6 +119,16 @@ export default class ProductCategoriesController {
       let userDeleted = await productBranches
         .merge({ status: !productBranches.status })
         .save();
+
+      await userDeleted.load("branch", (query) => {
+        query.preload("city", (query) => {
+          query.preload("state");
+        });
+      });
+
+      await userDeleted.load("product", (query) => {
+        query.preload("productCategory");
+      });
 
       return response.ok({
         message: RETURN_DATA_OK,

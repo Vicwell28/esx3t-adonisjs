@@ -1,13 +1,15 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import User from "App/Models/Users/User";
+import UserUpdateValidator from "App/Validators/User/UserUpdateValidator";
 
 const RETURN_DATA_OK = "Return data ok";
 export default class UsersController {
   public async index({ response }: HttpContextContract) {
     try {
-      const users = await User.query().preload("role", (query) => {
-        query.select(["id", "name", "status"]);
-      });
+      const users = await User.query()
+        .preload("role")
+        .preload("branch")
+        .preload("city");
 
       return response.ok({
         message: "all uses",
@@ -31,6 +33,12 @@ export default class UsersController {
         return response.notFound({ error: "user not found" });
       }
 
+      await user.load("branch");
+
+      await user.load("city");
+
+      await user.load("role");
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: user,
@@ -42,20 +50,26 @@ export default class UsersController {
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      // const payload = await request.validate(UserUpdateValidator);
-      // const id = request.param("id");
+      const payload = await request.validate(UserUpdateValidator);
+      const id = request.param("id");
 
-      // const user = await User.findBy("id", id);
+      const user = await User.findBy("id", id);
 
-      // if (!user) {
-      //   return response.notFound({ error: "user not found" });
-      // }
+      if (!user) {
+        return response.notFound({ error: "user not found" });
+      }
 
-      // const status = await user!.merge(payload).save();
+      const status = await user!.merge(payload).save();
+
+      await status.load("branch");
+
+      await status.load("city");
+
+      await status.load("role");
 
       return response.ok({
         message: RETURN_DATA_OK,
-        // data: status,
+        data: status,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
@@ -72,6 +86,12 @@ export default class UsersController {
       }
 
       let userDeleted = await user.merge({ status: !user.status }).save();
+
+      await userDeleted.load("branch");
+
+      await userDeleted.load("city");
+
+      await userDeleted.load("role");
 
       return response.ok({
         message: RETURN_DATA_OK,

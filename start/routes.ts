@@ -18,7 +18,6 @@
 |
 */
 
-import "./Auth/auth.routes";
 
 import "./User/user.routes";
 
@@ -40,6 +39,8 @@ import "./Product/product.routes";
 
 import "./Sale/salesDetail.routes";
 import "./Sale/sale.routes";
+
+import "./Auth/auth.routes";
 
 import Route from "@ioc:Adonis/Core/Route";
 

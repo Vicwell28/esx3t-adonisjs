@@ -9,7 +9,9 @@ export default class BranchesController {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let branch = await Branch.all();
+      let branch = await Branch.query().preload("city", (query) => {
+        query.preload("state");
+      });
 
       if (orderBy === "des") {
         branch = branch.reverse();
@@ -48,6 +50,10 @@ export default class BranchesController {
         return response.notFound({ error: "branch not found" });
       }
 
+      await branch.load("city", (query) => {
+        query.preload("state");
+      });
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: branch,
@@ -70,6 +76,10 @@ export default class BranchesController {
 
       const status = await branch!.merge(payload).save();
 
+      await status.load("city", (query) => {
+        query.preload("state");
+      });
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: status,
@@ -89,6 +99,10 @@ export default class BranchesController {
       }
 
       let userDeleted = await branch.merge({ status: !branch.status }).save();
+
+      await userDeleted.load("city", (query) => {
+        query.preload("state");
+      });
 
       return response.ok({
         message: RETURN_DATA_OK,

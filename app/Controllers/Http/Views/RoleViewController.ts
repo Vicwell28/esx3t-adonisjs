@@ -74,6 +74,8 @@ export default class RoleViewController {
 
       await roleView.related("views").sync(payload.views_id);
 
+      await roleView.load("views")
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: roleView,
@@ -95,29 +97,6 @@ export default class RoleViewController {
       return response.ok({
         message: RETURN_DATA_OK,
         data: roleView,
-      });
-    } catch (e) {
-      return response.badRequest({ error: { message: e } });
-    }
-  }
-
-  public async update({ request, response }: HttpContextContract) {
-    try {
-      const payload = await request.validate(RoleViewUpdateValidator);
-
-      const id = request.param("id");
-
-      const roleView = await RoleView.findBy("id", id);
-
-      if (!roleView) {
-        return response.notFound({ error: "roleView not found" });
-      }
-
-      const status = await roleView!.merge(payload).save();
-
-      return response.ok({
-        message: RETURN_DATA_OK,
-        data: status,
       });
     } catch (e) {
       return response.badRequest({ error: { message: e } });

@@ -9,7 +9,9 @@ export default class ProductsController {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let product = await Product.all();
+      let product = await Product
+      .query()
+      .preload("productCategory")
 
       if (orderBy === "des") {
         product = product.reverse();
@@ -48,6 +50,8 @@ export default class ProductsController {
         return response.notFound({ error: "product not found" });
       }
 
+      await product.load("productCategory")
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: product,
@@ -70,6 +74,8 @@ export default class ProductsController {
 
       const status = await product!.merge(payload).save();
 
+      await status.load("productCategory")
+
       return response.ok({
         message: RETURN_DATA_OK,
         data: status,
@@ -89,6 +95,8 @@ export default class ProductsController {
       }
 
       let userDeleted = await product.merge({ status: !product.status }).save();
+
+      await userDeleted.load("productCategory")
 
       return response.ok({
         message: RETURN_DATA_OK,

@@ -25,6 +25,7 @@ export default class ViewsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
+    console.log("Entro")
     try {
       const payload = await request.validate(ViewCreateValidator);
 
