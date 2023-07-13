@@ -16,6 +16,7 @@ export default class extends BaseSchema {
         .onDelete("CASCADE")
         .nullable();
       table.boolean("status").defaultTo(true);
+      table.string("url")
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

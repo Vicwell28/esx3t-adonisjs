@@ -11,5 +11,9 @@ export default class extends BaseSeeder {
     await this.runSeeder(await import("../City"));
     await this.runSeeder(await import("../User"));
     await this.runSeeder(await import("../Branch"));
+    // Views
+    await this.runSeeder(await import("../views/ViewCategories"));
+    await this.runSeeder(await import("../views/Views"));
+    await this.runSeeder(await import("../views/RoleView"));
   }
 }

@@ -18,6 +18,9 @@ export default class View extends BaseModel {
   public name: string;
 
   @column()
+  public url: string;
+
+  @column()
   public description: string;
 
   @column()
