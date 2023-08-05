@@ -9,7 +9,9 @@ export default class SalesController {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let sale = await Sale.all();
+      let sale = await Sale.query()
+      .preload('client')
+      .preload('employee');
 
       if (orderBy === "des") {
         sale = sale.reverse();
