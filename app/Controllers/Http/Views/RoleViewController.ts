@@ -6,57 +6,45 @@ import RoleViewUpdateValidator from "App/Validators/Views/RoleView/RoleViewUpdat
 
 const RETURN_DATA_OK = "Return data ok";
 export default class RoleViewController {
-  public async index({ response, request, auth }: HttpContextContract) {
+  public async index({ response, auth }: HttpContextContract) {
     try {
-      const { isAuth } = request.all();
+      let roleView = await Role.findBy("id", auth.user!.role_id);
 
-      if (isAuth) {
-        let roleView = await Role.findBy("id", auth.user!.role_id);
+      await roleView!.load("views", (query) => {
+        query.preload("viewCategory");
+      });
 
-        await roleView!.load("views", (query) => {
-          query.preload("viewCategory");
-        });
+      // Obtener las vistas cargadas
+      let views = roleView!.views;
 
-        // Obtener las vistas cargadas
-        let views = roleView!.views;
+      // Agrupar las vistas por categoría
+      let groupedViews = views.reduce((categories, view) => {
+        let category = view.viewCategory;
+        let categoryId = category.id;
 
-        // Agrupar las vistas por categoría
-        let groupedViews = views.reduce((categories, view) => {
-          let category = view.viewCategory;
-          let categoryId = category.id;
+        // Si la categoría aún no existe en el objeto agrupado, añádela
+        if (!categories[categoryId]) {
+          categories[categoryId] = {
+            category: category.name,
+            views: [],
+          };
+        }
 
-          // Si la categoría aún no existe en el objeto agrupado, añádela
-          if (!categories[categoryId]) {
-            categories[categoryId] = {
-              category: category.name,
-              views: [],
-            };
-          }
-
+        if (view.status) {
           // Añadir la vista a la categoría correspondiente
           categories[categoryId].views.push(view);
+        }
 
-          return categories;
-        }, {});
+        return categories;
+      }, {});
 
-        // Convertir el objeto en un array
-        let categoriesArray = Object.values(groupedViews);
+      // Convertir el objeto en un array
+      let categoriesArray = Object.values(groupedViews);
 
-        // Ahora categoriesArray contiene las vistas agrupadas por categoría
-        // return response.json({ categoriesArray });
-
-        return response.ok({
-          message: RETURN_DATA_OK,
-          data: categoriesArray,
-        });
-      } else {
-        let roleView = await RoleView.all();
-
-        return response.ok({
-          message: RETURN_DATA_OK,
-          data: roleView,
-        });
-      }
+      return response.ok({
+        message: RETURN_DATA_OK,
+        data: categoriesArray,
+      });
     } catch (e) {
       return response.badRequest({ error: { message: e } });
     }
@@ -74,7 +62,7 @@ export default class RoleViewController {
 
       await roleView.related("views").sync(payload.views_id);
 
-      await roleView.load("views")
+      await roleView.load("views");
 
       return response.ok({
         message: RETURN_DATA_OK,
