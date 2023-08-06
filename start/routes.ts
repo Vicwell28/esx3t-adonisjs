@@ -20,6 +20,7 @@
 
 
 import "./User/user.routes";
+import "./User/role.routes";
 
 import "./View/ViewCategory.routes";
 import "./View/View.routes";
