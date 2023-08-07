@@ -68,6 +68,33 @@ export default class UsersController {
     }
   }
 
+  public async update({ request, response }: HttpContextContract) {
+    try {
+      const payload = await request.validate(UserUpdateValidator);
+      const id = request.param("id");
+
+      const user = await User.findBy("id", id);
+
+      if (!user) {
+        return response.notFound({ error: "user not found" });
+      }
+
+      const status = await user!.merge(payload).save();
+
+      await status.load("branch");
+
+      await status.load("city");
+
+      await status.load("role");
+
+      return response.ok({
+        message: RETURN_DATA_OK,
+        data: status,
+      });
+    } catch (e) {
+      return response.badRequest({ error: { message: e } });
+    }
+  }
   public async destroy({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
