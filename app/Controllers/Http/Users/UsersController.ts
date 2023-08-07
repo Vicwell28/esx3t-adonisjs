@@ -48,6 +48,26 @@ export default class UsersController {
     }
   }
 
+  public async store({ request, response }: HttpContextContract) {
+    try {
+      const payload = await request.validate(UserUpdateValidator);
+
+      const user = await User.create(payload);
+
+      if (!user) {
+        return response.notFound({ error: "user not found" });
+      }
+
+      return response.ok({
+        message: RETURN_DATA_OK,
+        data: user,
+      });
+    } catch (e) {
+      console.log(e)
+      return response.badRequest({ error: { message: e } });
+    }
+  }
+
   public async update({ request, response }: HttpContextContract) {
     try {
       const payload = await request.validate(UserUpdateValidator);
@@ -75,7 +95,6 @@ export default class UsersController {
       return response.badRequest({ error: { message: e } });
     }
   }
-
   public async destroy({ request, response }: HttpContextContract) {
     try {
       const id = request.param("id");
