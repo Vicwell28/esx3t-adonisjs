@@ -6,9 +6,15 @@ import RoleViewUpdateValidator from "App/Validators/Views/RoleView/RoleViewUpdat
 
 const RETURN_DATA_OK = "Return data ok";
 export default class RoleViewController {
-  public async index({ response, auth }: HttpContextContract) {
+  public async index({ response, auth, request }: HttpContextContract) {
     try {
-      let roleView = await Role.findBy("id", auth.user!.role_id);
+      let { idRole } = request.all() as { idRole?: number };
+
+      if (idRole == null) {
+        idRole =  auth.user!.role_id
+      }
+
+      let roleView = await Role.findBy("id", idRole);
 
       await roleView!.load("views", (query) => {
         query.preload("viewCategory");

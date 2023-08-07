@@ -17,6 +17,12 @@ export default class extends BaseSeeder {
         view_category_id: 1,
       },
       {
+        name: "Roles",
+        description: "",
+        url: "roles",
+        view_category_id: 1,
+      },
+      {
         name: "Users",
         description: "",
         url: "users",
