@@ -9,7 +9,7 @@ export default class ViewCategoriesController {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let viewCategory = await ViewCategory.query().preload("view");
+      let viewCategory = await ViewCategory.query().orderBy('id').preload("view")
 
       if (orderBy === "des") {
         viewCategory = viewCategory.reverse();
