@@ -10,6 +10,18 @@ export default class extends BaseSeeder {
         password: "admin",
         role_id: 1,
       },
+      {
+        username: "empleado",
+        email: "empleado@gmail.com",
+        password: "empleado",
+        role_id: 2,
+      },  {
+        username: "cliente",
+        email: "cliente@gmail.com",
+        password: "cliente",
+        role_id: 3,
+      },
+
     ]);
   }
 }

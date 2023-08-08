@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.string("name", 50).notNullable();
       table.string("description", 250).nullable().defaultTo("");
       table.boolean("status").defaultTo(true);
+      
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
@@ -21,3 +22,4 @@ export default class extends BaseSchema {
     this.schema.dropTable(this.tableName);
   }
 }
+

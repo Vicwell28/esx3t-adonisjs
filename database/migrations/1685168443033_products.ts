@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments("id");
       table.string("name", 50).nullable();
       table.string("description", 250).nullable().defaultTo("");
+      table.double("price").notNullable();
       table
         .integer("product_category_id")
         .unsigned()
@@ -15,7 +16,6 @@ export default class extends BaseSchema {
         .inTable("product_categories")
         .onDelete("CASCADE")
         .nullable();
-      table.double("price").notNullable();
       table.boolean("status").defaultTo(true);
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

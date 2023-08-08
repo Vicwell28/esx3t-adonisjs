@@ -12,12 +12,13 @@ export default class Product extends BaseModel {
 
   @column()
   public description: string;
+  
+  @column()
+  public price: number;
 
   @column()
   public product_category_id: number;
 
-  @column()
-  public price: number;
 
   @column()
   public status: boolean;
