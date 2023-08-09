@@ -120,4 +120,5 @@ export default class UsersController {
       return response.badRequest({ error: { message: e } });
     }
   }
+
 }
