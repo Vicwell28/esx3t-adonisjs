@@ -5,11 +5,14 @@ import OrderUpdateValidator from "App/Validators/Orders/Order/OrderUpdateValidat
 
 const RETURN_DATA_OK = "Return data ok";
 export default class OrdersController {
+
   public async index({ response, request }: HttpContextContract) {
     try {
       const { orderBy } = request.all() as { orderBy?: string };
 
-      let order = await Order.all();
+      let order = await Order.query()
+      .preload('client')
+      .preload('employee');
 
       if (orderBy === "des") {
         order = order.reverse();

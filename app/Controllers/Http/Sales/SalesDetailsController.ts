@@ -5,6 +5,7 @@ import SalesDetailUpdateValidator from "App/Validators/Sales/SalesDetail/SalesDe
 
 const RETURN_DATA_OK = "Return data ok";
 export default class SalesDetailsController {
+  
   public async index({ response, request }: HttpContextContract) {
     try {
 
