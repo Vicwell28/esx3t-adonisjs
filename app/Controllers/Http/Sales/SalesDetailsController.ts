@@ -14,7 +14,9 @@ export default class SalesDetailsController {
       };
 
       if (sale_id) {
-        let orderDetail = await SalesDetail.query().where("sale_id", sale_id).where("status", true)
+        let orderDetail = await SalesDetail.query().where("sale_id", sale_id).where("status", true).preload('sale', (sale)=>{
+          sale.preload('client')
+        })
 
         return response.ok({
           message: RETURN_DATA_OK,
@@ -22,7 +24,11 @@ export default class SalesDetailsController {
         });
       }
 
-      let salesDetail = await SalesDetail.all();
+      let salesDetail = await SalesDetail.query().preload('sale', (sale)=>{
+        sale.preload('client')
+      }).preload('productBranch',(pb)=>{
+        pb.preload('product')
+      });
 
       if (orderBy === "des") {
         salesDetail = salesDetail.reverse();

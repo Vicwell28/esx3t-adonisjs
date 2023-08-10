@@ -19,7 +19,7 @@ export default class Sale extends BaseModel {
   @column()
   public status: boolean;
 
-  @column.dateTime({ autoCreate: true, serializeAs: null })
+  @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
