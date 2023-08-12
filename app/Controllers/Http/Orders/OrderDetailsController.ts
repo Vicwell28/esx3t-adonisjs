@@ -11,9 +11,12 @@ export default class OrderDetailsController {
         orderBy?: string;
         order?: string;
       };
-
+     
       if (order) {
-        let orderDetail = await OrderDetail.query().where("order_id", order).where("status", true)
+        let orderDetail = await OrderDetail.query()
+        .preload('order')
+        .preload('productBranch')
+        .where("order_id", order).where("status", true)
 
         return response.ok({
           message: RETURN_DATA_OK,
