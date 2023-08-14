@@ -9,7 +9,8 @@ export default class ProductUpdateValidator {
     ]),
     description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
     product_category_id: schema.number.optional(),
-    price: schema.number.optional()
+    price: schema.number.optional(),
+    url_img: schema.string.optional()
   });
 
   public messages: CustomMessages = {

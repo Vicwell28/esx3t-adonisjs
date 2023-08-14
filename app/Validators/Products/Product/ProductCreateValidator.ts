@@ -10,7 +10,8 @@ export default class ProductCreateValidator {
     ]),
     description: schema.string.optional({ trim: true }, [rules.minLength(4)]),
     product_category_id: schema.number(),
-    price: schema.number()
+    price: schema.number(),
+    url_img: schema.string()
   });
 
   public messages: CustomMessages = {

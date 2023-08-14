@@ -17,6 +17,9 @@ export default class Product extends BaseModel {
   public price: number;
 
   @column()
+  public url_img: string;
+
+  @column()
   public product_category_id: number;
 
 
