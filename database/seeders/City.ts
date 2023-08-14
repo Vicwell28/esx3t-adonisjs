@@ -6,31 +6,35 @@ export default class extends BaseSeeder {
     await City.createMany([
       {
         name: "Torreón",
-        state_id: 7,
+        state_id: 8,
+      },
+      {
+        name: "Gomez",
+        state_id: 10,
+      },
+      {
+        name: "Lerdo",
+        state_id: 10,
       },
       {
         name: "Monclova",
-        state_id: 7,
-      },
-      {
-        name: "Ciudad de México",
-        state_id: 6,
+        state_id: 8,
       },
       {
         name: "Saltillo",
-        state_id: 7,
+        state_id: 8,
       },
       {
         name: "Monterrey",
-        state_id: 20,
+        state_id: 19,
       },
       {
         name: "Guadalajara",
-        state_id: 24,
+        state_id: 15,
       },
       {
         name: "Zapopan",
-        state_id: 24,
+        state_id: 15,
       },
     ]);
   }

@@ -4,12 +4,30 @@ import UserUpdateValidator from "App/Validators/User/UserUpdateValidator";
 
 const RETURN_DATA_OK = "Return data ok";
 export default class UsersController {
-  public async index({ response }: HttpContextContract) {
+  public async index({ response, request, auth }: HttpContextContract) {
     try {
-      const users = await User.query()
+      
+      const { isAuth } = request.all() as { isAuth?: string };
+
+      let users: any; 
+
+      if (isAuth != null && isAuth == "true")
+      {
+        users = await User.query()
+        .where('id', auth.user!.id)
+        .preload("role")
+        .preload("branch")
+        .preload("city")
+        .firstOrFail();
+      } else {
+        users = await User.query()
         .preload("role")
         .preload("branch")
         .preload("city");
+      }
+
+
+     
 
       return response.ok({
         message: "all uses",

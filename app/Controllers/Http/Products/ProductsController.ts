@@ -12,6 +12,9 @@ export default class ProductsController {
       let product = await Product
       .query()
       .preload("productCategory")
+      .preload("productBranch", (query) => {
+        query.preload("branch")
+      })
 
       if (orderBy === "des") {
         product = product.reverse();

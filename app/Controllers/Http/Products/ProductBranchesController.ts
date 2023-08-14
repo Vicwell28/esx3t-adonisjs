@@ -19,6 +19,10 @@ export default class ProductCategoriesController {
           query.preload("productCategory");
         });
 
+      productBranches = productBranches.filter((productBranch) => {
+        return productBranch.stock > 0;
+      });
+
       if (orderBy === "des") {
         productBranches = productBranches.reverse();
       }
